@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ArgiPredictionApp</string>
+    <string name="title_activity_prediction">PredictionActivity</string>
+</resources>
