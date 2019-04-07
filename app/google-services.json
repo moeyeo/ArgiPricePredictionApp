@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "576287475014",
+    "firebase_url": "https://argiculturalprediction.firebaseio.com",
+    "project_id": "argiculturalprediction",
+    "storage_bucket": "argiculturalprediction.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576287475014:android:2e0ed977c7786720",
+        "android_client_info": {
+          "package_name": "com.moeyeo.argipredictionapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnSaC_ZZnu55XRDqa8H7Nh7_b7GTlHpw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576287475014-gf4484g725bijmn91abuclfh2bkjir5v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
