@@ -18,10 +18,12 @@ public class VegAdapter extends RecyclerView.Adapter<VegAdapter.FilmHolder> {
 
     private List<vegDetails> films;
     public OnFilmClickListener onFilmClickListener;
+    private Context mContext;
 
-    public VegAdapter(List<vegDetails> films, OnFilmClickListener onFilmClickListener) {
+    public VegAdapter(Context context,List<vegDetails> films, OnFilmClickListener onFilmClickListener) {
         this.films = films;
         this.onFilmClickListener = onFilmClickListener;
+        mContext = context;
     }
 
     public void setFilms(List<vegDetails> films) {
@@ -40,6 +42,7 @@ public class VegAdapter extends RecyclerView.Adapter<VegAdapter.FilmHolder> {
         vegDetails item = films.get(position);
         holder.film = item;
         holder.title.setText(item.Name);
+        Glide.with(mContext).load(item.getImgUrl()).centerCrop().into(holder.img);
     }
 
     @Override
@@ -55,10 +58,12 @@ public class VegAdapter extends RecyclerView.Adapter<VegAdapter.FilmHolder> {
 
         vegDetails film;
         TextView title;
+        ImageView img;
 
         FilmHolder(View itemView, final OnFilmClickListener onFilmClickListener) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.textView3);
+            img = (ImageView) itemView.findViewById(R.id.imageView3);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

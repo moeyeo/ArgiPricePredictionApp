@@ -7,15 +7,23 @@ public class vegDetails {
     @SerializedName("Name")
     @Expose
     String Name;
-    @SerializedName("Harvest_Time")
+    @SerializedName("HarvestTime")
     @Expose
-    String Harvest_Time;
+    String HarvestTime;
+
+    @SerializedName("ImgUrl")
+    @Expose
+    String imgUrl;
 
     public String getName() {
         return Name;
     }
 
-    public String getHarvest_Time() {
-        return Harvest_Time;
+    public String getHarvestTime() {
+        return HarvestTime;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
     }
 }

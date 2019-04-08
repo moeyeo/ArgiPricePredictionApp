@@ -61,10 +61,11 @@ public class PredictionActivity extends AppCompatActivity {
             public void onFailure(Call<VegList> call, Throwable t) {
             }
         });
-        vegAdapter = new VegAdapter(listVeg, new VegAdapter.OnFilmClickListener() {
+        vegAdapter = new VegAdapter(this,listVeg, new VegAdapter.OnFilmClickListener() {
             @Override
             public void onFilmClick(vegDetails film) {
-
+                VegDetailsActivity.start(PredictionActivity.this, film.getName());
+                //Toast.makeText(PredictionActivity.this, film.getName(), Toast.LENGTH_SHORT).show();
             }
         });
         recyclerView.setAdapter(vegAdapter);

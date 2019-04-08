@@ -1,10 +1,12 @@
 package com.moeyeo.argipredictionapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jjoe64.graphview.GraphView;
@@ -21,10 +23,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class VegDetailsActivity extends AppCompatActivity {
 
+    private static final String KEY_NAME = "NAME";
+
+    public static void start(Context context, String vegName) {
+        Intent starter = new Intent(context, VegDetailsActivity.class);
+        starter.putExtra(KEY_NAME, vegName);
+        context.startActivity(starter);
+    }
+
     LineGraphSeries<DataPoint> series;
     ImageView pic;
     TextView name;
     Context mContext;
+    String vegName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +44,7 @@ public class VegDetailsActivity extends AppCompatActivity {
         pic = (ImageView) findViewById(R.id.imageView2);
         mContext = this;
         name = (TextView) findViewById(R.id.vegName);
+        vegName = getIntent().getStringExtra(KEY_NAME);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:7777/")
@@ -40,13 +52,13 @@ public class VegDetailsActivity extends AppCompatActivity {
                 .build();
 
         vegPriceGenerate veg = retrofit.create(vegPriceGenerate.class);
-        Call call = veg.getVeg("Banana");
+        Call call = veg.getVeg(vegName);
 
         call.enqueue(new Callback<vegDetails>() {
             @Override
             public void onResponse(Call<vegDetails> call, Response<vegDetails> response) {
                 name.setText(response.body().getName());
-
+                Glide.with(mContext).load(response.body().getImgUrl()).centerCrop().into(pic);
             }
 
             @Override
@@ -55,8 +67,6 @@ public class VegDetailsActivity extends AppCompatActivity {
             }
 
         });
-
-        Glide.with(mContext).load("https://3.imimg.com/data3/CA/TX/MY-10737453/cellery-leaf-250x250.jpg").centerCrop().into(pic);
 
         double y,x;
         x = 0;

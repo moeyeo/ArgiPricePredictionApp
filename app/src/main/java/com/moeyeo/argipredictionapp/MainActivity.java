@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         plan_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, VegDetailsActivity.class);
+                Intent intent = new Intent(MainActivity.this, PlanActivity.class);
                 startActivity(intent);
             }
         });
