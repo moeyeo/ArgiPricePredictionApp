@@ -5,10 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 public class MainActivity extends AppCompatActivity {
     private Button predict_button;
     private Button plan_button;
+    private ImageView test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
         predict_button = (Button) findViewById(R.id.predict_button);
         plan_button = (Button) findViewById(R.id.plan_button);
+        test = (ImageView) findViewById(R.id.testInternet);
+        Glide.with(this).load("https://developer.apple.com/swift/images/swift-og.png").centerCrop().into(test);
         predict_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

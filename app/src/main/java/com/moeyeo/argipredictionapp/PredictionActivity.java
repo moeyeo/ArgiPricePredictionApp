@@ -18,6 +18,7 @@ import com.moeyeo.argipredictionapp.Model.vegPriceGenerate;
 
 import org.w3c.dom.Text;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,12 +54,14 @@ public class PredictionActivity extends AppCompatActivity {
         call.enqueue(new Callback<VegList>() {
             @Override
             public void onResponse(Call<VegList> call, Response<VegList> response) {
-                listVeg = response.body().results;
-                vegAdapter.setFilms(response.body().results);
+                listVeg = response.body().result;
+                vegAdapter.setFilms(response.body().result);
+                System.out.print("Connect");
             }
 
             @Override
             public void onFailure(Call<VegList> call, Throwable t) {
+                System.out.print("Can't connect");
             }
         });
         vegAdapter = new VegAdapter(this,listVeg, new VegAdapter.OnFilmClickListener() {
