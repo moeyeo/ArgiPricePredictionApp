@@ -47,7 +47,7 @@ public class VegDetailsActivity extends AppCompatActivity {
         vegName = getIntent().getStringExtra(KEY_NAME);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:7777/")
+                .baseUrl("https://us-central1-argiculturalprediction.cloudfunctions.net/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -2,7 +2,7 @@ var app = require('express')();
 
 var port = process.env.PORT || 7777;
 
-var vegs = require('./vegs');
+var vegs_mongo = require('./vegs_mongo');
 
 var mongojs = require('./db');
 
@@ -12,9 +12,9 @@ const spawn = require("child_process").spawn;
 const pythonProcess = spawn('python',["Arima_Sample.py"]);
 
 app.get('/', function (req, res) {
-    db.vegs.count(function(err, result) {
+    db.vegs_mongo.count(function(err, result) {
         if (result <= 0) {
-            db.vegs.insert(vegs.findAll(), function(err, docs) {
+            db.vegs_mongo.insert(vegs_mongo.findAll(), function(err, docs) {
                 // insert new data.
             });
         } 
@@ -22,17 +22,16 @@ app.get('/', function (req, res) {
     });
 });
 
-app.get('/vegDetails', function (req, res) {
-    db.vegs.find(function(err, docs) {
+app.get('/vegsDetail', function (req, res) {
+    db.vegs_mongo.find(function(err, docs) {
         res.json(docs);
     });
 });
 
 
-app.get('/vegDetails/:name', function (req, res) {
-    var id = req.params.id;
-
-    db.vegs.findOne({Name: id}, function(err, docs) {
+app.get('/vegsDetail/:name', function (req, res) {
+    var name = req.params.name;
+    db.vegs_mongo.findOne({Name: name}, function(err, docs) {
         res.json(docs);
     });
 });

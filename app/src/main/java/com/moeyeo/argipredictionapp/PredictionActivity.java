@@ -45,7 +45,7 @@ public class PredictionActivity extends AppCompatActivity {
         listVeg = new ArrayList<>();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:7777/")
+                .baseUrl("https://us-central1-argiculturalprediction.cloudfunctions.net/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -54,9 +54,9 @@ public class PredictionActivity extends AppCompatActivity {
         call.enqueue(new Callback<VegList>() {
             @Override
             public void onResponse(Call<VegList> call, Response<VegList> response) {
-                listVeg = response.body().result;
-                vegAdapter.setFilms(response.body().result);
-                System.out.print("Connect");
+                listVeg = response.body().getResult();
+                vegAdapter.setFilms(response.body().getResult());
+
             }
 
             @Override
