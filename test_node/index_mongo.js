@@ -29,10 +29,10 @@ app.get('/vegDetails', function (req, res) {
 });
 
 
-app.get('/vegDetails/:name', function (req, res) {
+app.get('/vegDetails/:id', function (req, res) {
     var id = req.params.id;
 
-    db.vegs.findOne({Name: id}, function(err, docs) {
+    db.vegs.findOne({Name:id }, function(err, docs) {
         res.json(docs);
     });
 });
