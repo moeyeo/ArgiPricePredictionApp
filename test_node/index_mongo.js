@@ -17,7 +17,7 @@ app.get('/', function (req, res) {
             db.vegs_mongo.insert(vegs_mongo.findAll(), function(err, docs) {
                 // insert new data.
             });
-        } 
+        }  
         res.send('<h1>Hello Node.js</h1>');
     });
 });
