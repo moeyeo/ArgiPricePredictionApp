@@ -5,10 +5,10 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface vegPriceGenerate {
-    @GET("vegDetails/{id}")
+    @GET("vegsDetail/{id}")
     Call<vegDetails> getVeg(@Path("id") String vegId);
 
-    @GET("vegDetails")
+    @GET("vegsDetail")
     Call<VegList> getVegList();
 
 }

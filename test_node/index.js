@@ -15,12 +15,12 @@ app.get('/', function (req, res) {
     res.send('<h1>Hello Node.js</h1>');
 });
 
-app.get('/vegDetails', function (req, res) {
+app.get('/vegsDetail', function (req, res) {
     res.json(vegs.findAll());
 });
 
 
-app.get('/vegDetails/:id', function (req, res) {
+app.get('/vegsDetail/:id', function (req, res) {
     var id = req.params.id;
     res.json(vegs.findById(id));
 });

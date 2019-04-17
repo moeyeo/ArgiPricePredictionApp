@@ -22,14 +22,15 @@ app.get('/', function (req, res) {
     });
 });
 
-app.get('/vegDetails', function (req, res) {
+app.get('/vegsDetail', function (req, res) {
     db.vegs.find(function(err, docs) {
+        console.log(docs);
         res.json(docs);
     });
 });
 
 
-app.get('/vegDetails/:id', function (req, res) {
+app.get('/vegsDetail/:id', function (req, res) {
     var id = req.params.id;
 
     db.vegs.findOne({Name:id }, function(err, docs) {
