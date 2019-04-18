@@ -2,7 +2,7 @@ var app = require('express')();
 
 var port = process.env.PORT || 7777;
 
-var vegs = require('./vegs');
+var vegs = require('./vegs_mongo');
 
 var mongojs = require('./db');
 
@@ -12,9 +12,9 @@ const spawn = require("child_process").spawn;
 const pythonProcess = spawn('python',["Arima_Sample.py"]);
 
 app.get('/', function (req, res) {
-    db.vegs.count(function(err, result) {
+    db.vegs_mongo.count(function(err, result) {
         if (result <= 0) {
-            db.vegs.insert(vegs.findAll(), function(err, docs) {
+            db.vegs_mongo.insert(vegs.findAll(), function(err, docs) {
                 // insert new data.
             });
         } 
@@ -23,7 +23,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/vegsDetail', function (req, res) {
-    db.vegs.find(function(err, docs) {
+    db.vegs_mongo.findOne(function(err, docs) {
         console.log(docs);
         res.json(docs);
     });
