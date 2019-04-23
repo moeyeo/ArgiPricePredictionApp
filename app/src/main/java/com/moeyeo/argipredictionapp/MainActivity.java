@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
         predict_button = (Button) findViewById(R.id.predict_button);
         plan_button = (Button) findViewById(R.id.plan_button);
-        test = (ImageView) findViewById(R.id.testInternet);
-        Glide.with(this).load("https://developer.apple.com/swift/images/swift-og.png").centerCrop().into(test);
         predict_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

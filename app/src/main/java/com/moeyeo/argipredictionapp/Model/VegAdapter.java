@@ -12,6 +12,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.moeyeo.argipredictionapp.R;
 
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class VegAdapter extends RecyclerView.Adapter<VegAdapter.FilmHolder> {
@@ -19,6 +23,8 @@ public class VegAdapter extends RecyclerView.Adapter<VegAdapter.FilmHolder> {
     private List<vegDetails> films;
     public OnFilmClickListener onFilmClickListener;
     private Context mContext;
+    List<Double> prediction;
+    NumberFormat formatter = new DecimalFormat("#0.00");
 
     public VegAdapter(Context context,List<vegDetails> films, OnFilmClickListener onFilmClickListener) {
         this.films = films;
@@ -42,6 +48,8 @@ public class VegAdapter extends RecyclerView.Adapter<VegAdapter.FilmHolder> {
         vegDetails item = films.get(position);
         holder.film = item;
         holder.title.setText(item.Name);
+        holder.avgPrice.setText(formatter.format(item.getAvgPrice())+" THB");
+        holder.harvest.setText("harvested in : "+item.getHarvestTime()+" months.");
         Glide.with(mContext).load(item.getImgUrl()).centerCrop().into(holder.img);
     }
 
@@ -58,12 +66,16 @@ public class VegAdapter extends RecyclerView.Adapter<VegAdapter.FilmHolder> {
 
         vegDetails film;
         TextView title;
+        TextView avgPrice;
         ImageView img;
+        TextView harvest;
 
         FilmHolder(View itemView, final OnFilmClickListener onFilmClickListener) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.textView3);
             img = (ImageView) itemView.findViewById(R.id.imageView3);
+            avgPrice = (TextView) itemView.findViewById(R.id.priceMonth);
+            harvest = (TextView) itemView.findViewById(R.id.harvest1);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

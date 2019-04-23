@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
@@ -35,6 +36,9 @@ public class PredictionActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     VegAdapter vegAdapter;
     List<vegDetails> listVeg;
+    List<vegDetails> listSearch;
+    String search;
+    TextView notFound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class PredictionActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.vegView);
         listVeg = new ArrayList<>();
+        listSearch = new ArrayList<>();
+        notFound = (TextView) findViewById(R.id.notFound);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:7777/")
@@ -56,12 +62,12 @@ public class PredictionActivity extends AppCompatActivity {
             public void onResponse(Call<VegList> call, Response<VegList> response) {
                 listVeg = response.body().result;
                 vegAdapter.setFilms(response.body().result);
-                System.out.print("Connect");
+                Log.d("qqq", "Connect");
             }
 
             @Override
             public void onFailure(Call<VegList> call, Throwable t) {
-                System.out.print("Can't connect");
+                Log.d("qqq", "Cant Connect");
             }
         });
         vegAdapter = new VegAdapter(this,listVeg, new VegAdapter.OnFilmClickListener() {
@@ -79,7 +85,26 @@ public class PredictionActivity extends AppCompatActivity {
         sv.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                listSearch = new ArrayList<>();
                 Toast.makeText(PredictionActivity.this, s, Toast.LENGTH_SHORT).show();
+                if(s==null){
+                    Log.d("sv","testttt");
+                }
+                for(int i =0;i<listVeg.size();i++){
+                    System.out.println("\n"+listVeg.get(i).getName().toLowerCase()+"----"+s.toLowerCase());
+                    String a = s.toLowerCase().replace(" ","");
+                    String b = listVeg.get(i).getName().toLowerCase().replace(" ","");;
+                    if(b.contains(a)){
+                        listSearch.add(listVeg.get(i));
+                        System.out.println("\n"+listVeg.get(i).getName().toLowerCase()+"+++++++"+s.toLowerCase());
+                        notFound.setText("");
+                    }
+                    if(listSearch.size()==0){
+                        notFound.setText("Not found.");
+                    }
+                    vegAdapter.setFilms(listSearch);
+                    showResult();
+                }
                 return true;
             }
 
@@ -89,7 +114,22 @@ public class PredictionActivity extends AppCompatActivity {
             }
         });
 
+
         //System.out.print(sv.getQuery());
+
+    }
+
+    private void showResult() {
+        vegAdapter = new VegAdapter(this,listSearch, new VegAdapter.OnFilmClickListener() {
+            @Override
+            public void onFilmClick(vegDetails film) {
+                VegDetailsActivity.start(PredictionActivity.this, film.getName());
+                //Toast.makeText(PredictionActivity.this, film.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        recyclerView.setAdapter(vegAdapter);
+        //recyclerView.setLayoutManager(new GridLayoutManager(this,3));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 

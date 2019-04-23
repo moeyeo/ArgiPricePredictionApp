@@ -15,6 +15,12 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.moeyeo.argipredictionapp.Model.vegDetails;
 import com.moeyeo.argipredictionapp.Model.vegPriceGenerate;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,6 +42,10 @@ public class VegDetailsActivity extends AppCompatActivity {
     TextView name;
     Context mContext;
     String vegName;
+    TextView avgPrice;
+    TextView harvest;
+    GraphView graph;
+    List<Double> predictions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,10 @@ public class VegDetailsActivity extends AppCompatActivity {
         mContext = this;
         name = (TextView) findViewById(R.id.vegName);
         vegName = getIntent().getStringExtra(KEY_NAME);
+        predictions = new ArrayList<>();
+        graph = (GraphView) findViewById(R.id.graph1);
+        avgPrice = (TextView) findViewById(R.id.avgPrice);
+        harvest = (TextView) findViewById(R.id.harvest2);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:7777/")
@@ -58,7 +72,11 @@ public class VegDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<vegDetails> call, Response<vegDetails> response) {
                 name.setText(response.body().getName());
+                predictions = response.body().getPredictions();
+                avgPrice.setText(formatter.format(response.body().getAvgPrice())+" THB");
+                harvest.setText("harvested in : "+response.body().getHarvestTime()+" months");
                 Glide.with(mContext).load(response.body().getImgUrl()).centerCrop().into(pic);
+                createGraph();
             }
 
             @Override
@@ -68,17 +86,39 @@ public class VegDetailsActivity extends AppCompatActivity {
 
         });
 
-        double y,x;
-        x = 0;
-        y = 12;
 
-        GraphView graph = (GraphView) findViewById(R.id.graph1);
-        series = new LineGraphSeries<DataPoint>();
-        for(int i =0; i<12; i++) {
-            x = i;
-            y = y-1;
-            series.appendData(new DataPoint(x, y), true, 100);
+    }
+    List<Double> prediction;
+    NumberFormat formatter = new DecimalFormat("#0.00");
+    private void createGraph(){
+        System.out.println(formatter.format(4.0));
+        prediction = new ArrayList<>();
+
+        for(int i =0;i<12;i++){
+            prediction.add(Double.parseDouble(formatter.format(predictions.get(i))));
+            System.out.println(prediction.get(i));
         }
-        graph.addSeries(series);;
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(1, this.predictions.get(0)),
+                new DataPoint(2, this.predictions.get(1)),
+                new DataPoint(3, this.predictions.get(2)),
+                new DataPoint(4, this.predictions.get(3)),
+                new DataPoint(5, this.predictions.get(4)),
+                new DataPoint(6, this.predictions.get(5)),
+                new DataPoint(7, this.predictions.get(6)),
+                new DataPoint(8, this.predictions.get(7)),
+                new DataPoint(9, this.predictions.get(8)),
+                new DataPoint(10, this.predictions.get(9)),
+                new DataPoint(11, this.predictions.get(10)),
+                new DataPoint(12, this.predictions.get(11)),
+        });
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(1);
+        graph.getViewport().setMaxX(12);
+        graph.addSeries(series);
+
     }
 }
+

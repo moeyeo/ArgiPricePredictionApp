@@ -11,4 +11,6 @@ public interface vegPriceGenerate {
     @GET("vegsDetail")
     Call<VegList> getVegList();
 
+
+
 }
